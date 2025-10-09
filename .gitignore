@@ -1,0 +1,39 @@
+# Environment variables (contains sensitive data)
+.env
+
+# Backup files
+backups/
+*.tar.gz
+*.sql
+*.backup
+
+# Logs
+*.log
+logs/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data directories (if you accidentally create local data dirs)
+data/
+postgres_data/
+n8n_data/
+letsencrypt/
+
+# Temporary files
+*.tmp
+tmp/

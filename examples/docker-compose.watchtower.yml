@@ -1,5 +1,9 @@
 version: "3.8"
 
+# Example: docker-compose.yml with Watchtower for automatic updates
+# Copy this to your root directory if you want automatic updates
+# WARNING: Automatic updates can break your setup. Always backup first!
+
 services:
   traefik:
     image: traefik:v2.11
@@ -23,6 +27,8 @@ services:
       - "letsencrypt:/letsencrypt"
     networks:
       - n8n-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   postgres:
     image: postgres:15
@@ -40,6 +46,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"  # Don't auto-update database
 
   n8n:
     image: n8nio/n8n:latest
@@ -70,8 +78,50 @@ services:
       - "traefik.http.routers.n8n.entrypoints=websecure"
       - "traefik.http.routers.n8n.tls.certresolver=le"
       - "traefik.http.services.n8n.loadbalancer.server.port=5678"
+      - "com.centurylinklabs.watchtower.enable=true"
     volumes:
       - n8n_data:/home/node/.n8n
+    networks:
+      - n8n-network
+
+  # Watchtower - automatically updates Docker containers
+  watchtower:
+    image: containrrr/watchtower:latest
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      # Check for updates every 24 hours (86400 seconds)
+      - WATCHTOWER_POLL_INTERVAL=86400
+      
+      # Clean up old images after update
+      - WATCHTOWER_CLEANUP=true
+      
+      # Only update containers with watchtower label
+      - WATCHTOWER_LABEL_ENABLE=true
+      
+      # Include stopped containers
+      - WATCHTOWER_INCLUDE_STOPPED=true
+      
+      # Include restarting containers
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      
+      # Schedule updates at specific time (3 AM)
+      # Format: "0 0 3 * * *" (seconds minutes hours day month weekday)
+      - WATCHTOWER_SCHEDULE=0 0 3 * * *
+      
+      # Optional: Send notifications (uncomment and configure)
+      # - WATCHTOWER_NOTIFICATIONS=slack
+      # - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=https://hooks.slack.com/services/xxx
+      
+      # Optional: Email notifications
+      # - WATCHTOWER_NOTIFICATIONS=email
+      # - WATCHTOWER_NOTIFICATION_EMAIL_FROM=watchtower@yourdomain.com
+      # - WATCHTOWER_NOTIFICATION_EMAIL_TO=admin@yourdomain.com
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp.gmail.com
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=587
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=your-email@gmail.com
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=your-app-password
     networks:
       - n8n-network
 
