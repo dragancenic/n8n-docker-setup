@@ -1,8 +1,9 @@
-
+```
     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃             -  n8n Docker Setup -             ┃
     ┃     Production-Ready | HTTPS | PostgreSQL     ┃
     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docker](https://img.shields.io/badge/Docker-Required-blue.svg)](https://www.docker.com/)
@@ -150,7 +151,7 @@ If you find this project helpful, please consider giving it a star! ⭐
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                      Internet                            │
+│                      Internet                           │
 └────────────────────┬────────────────────────────────────┘
                      │
                      │ HTTPS (443)
