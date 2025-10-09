@@ -1,9 +1,8 @@
-```
+
     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃   🚀 n8n Docker Setup                         ┃
-    ┃   Production-Ready | HTTPS | PostgreSQL      ┃
+    ┃             -  n8n Docker Setup -             ┃
+    ┃     Production-Ready | HTTPS | PostgreSQL     ┃
     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-```
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docker](https://img.shields.io/badge/Docker-Required-blue.svg)](https://www.docker.com/)
