@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docker](https://img.shields.io/badge/Docker-Required-blue.svg)](https://www.docker.com/)
 [![n8n](https://img.shields.io/badge/n8n-Latest-orange.svg)](https://n8n.io/)
-[![Maintenance](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://github.com/your-username/n8n-docker-setup)
+[![Maintenance](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://github.com/dragancenic/n8n-docker-setup)
 
 Production-ready n8n installation with Docker, PostgreSQL, Traefik reverse proxy, and automatic HTTPS.
 
