@@ -132,8 +132,8 @@ docker-compose exec postgres pg_dump -U n8n n8n > old_backup.sql
 
 2. **Clone this repository**:
 ```bash
-git clone https://github.com/your-username/n8n-docker-setup.git
-cd n8n-docker-setup
+git clone https://github.com/your-username/n8n-docker-setup.git n8n
+cd n8n
 ```
 
 3. **Configure .env** with same domain and credentials
@@ -146,7 +146,7 @@ docker-compose down
 
 5. **Start new installation**:
 ```bash
-cd /path/to/n8n-docker-setup
+cd /path/to/n8n
 docker-compose up -d
 ```
 
@@ -181,8 +181,8 @@ scp workflows.json backup.sql n8n_data.tar.gz user@new-server:/tmp/
 3. **On new server - Setup**:
 ```bash
 # Clone and configure
-git clone https://github.com/your-username/n8n-docker-setup.git
-cd n8n-docker-setup
+git clone https://github.com/your-username/n8n-docker-setup.git n8n
+cd n8n
 cp .env.example .env
 nano .env  # Configure with OLD domain or new domain
 

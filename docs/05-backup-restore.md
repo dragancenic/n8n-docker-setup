@@ -24,7 +24,7 @@ Your n8n installation includes:
 ### Using Backup Script
 
 ```bash
-cd ~/n8n-docker-setup
+cd ~/n8n
 ./scripts/backup.sh
 ```
 
@@ -65,8 +65,8 @@ docker run --rm \
 ### Step 4: Backup Configuration Files
 
 ```bash
-cp ~/n8n-docker-setup/.env ./env_backup_$(date +%Y%m%d).txt
-cp ~/n8n-docker-setup/docker-compose.yml ./docker-compose_backup_$(date +%Y%m%d).yml
+cp ~/n8n/.env ./env_backup_$(date +%Y%m%d).txt
+cp ~/n8n/docker-compose.yml ./docker-compose_backup_$(date +%Y%m%d).yml
 ```
 
 ## Automated Backups
@@ -82,7 +82,7 @@ nano ~/backup-n8n.sh
 Add content:
 ```bash
 #!/bin/bash
-cd ~/n8n-docker-setup
+cd ~/n8n
 ./scripts/backup.sh
 
 # Keep only last 7 backups
@@ -111,7 +111,7 @@ Add this line (runs daily at 2 AM):
 
 ```bash
 #!/bin/bash
-BACKUP_FILE=$(ls -t ~/n8n-docker-setup/backups/*.tar.gz | head -1)
+BACKUP_FILE=$(ls -t ~/n8n/backups/*.tar.gz | head -1)
 rsync -avz $BACKUP_FILE user@backup-server:/path/to/backups/
 ```
 
@@ -126,7 +126,7 @@ aws configure
 Upload backup:
 ```bash
 #!/bin/bash
-BACKUP_FILE=$(ls -t ~/n8n-docker-setup/backups/*.tar.gz | head -1)
+BACKUP_FILE=$(ls -t ~/n8n/backups/*.tar.gz | head -1)
 aws s3 cp $BACKUP_FILE s3://your-bucket/n8n-backups/
 ```
 
@@ -135,7 +135,7 @@ aws s3 cp $BACKUP_FILE s3://your-bucket/n8n-backups/
 ### Using Restore Script
 
 ```bash
-cd ~/n8n-docker-setup
+cd ~/n8n
 
 # List available backups
 ls -lh backups/
@@ -151,7 +151,7 @@ If you prefer manual restoration:
 #### Step 1: Stop Services
 
 ```bash
-cd ~/n8n-docker-setup
+cd ~/n8n
 docker-compose down
 ```
 

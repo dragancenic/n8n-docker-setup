@@ -52,7 +52,7 @@ docker run --rm -v n8n_n8n_data:/data -v $(pwd):/backup \
 ### Using Update Script
 
 ```bash
-cd ~/n8n-docker-setup
+cd ~/n8n
 ./scripts/update.sh
 ```
 
@@ -71,7 +71,7 @@ If you prefer to update manually:
 ### Step 1: Navigate to Project Directory
 
 ```bash
-cd ~/n8n-docker-setup
+cd ~/n8n
 ```
 
 ### Step 2: Create Backup

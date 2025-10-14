@@ -19,8 +19,8 @@ nslookup your-domain.com
 
 ```bash
 cd ~
-git clone https://github.com/your-username/n8n-docker-setup.git
-cd n8n-docker-setup
+git clone https://github.com/your-username/n8n-docker-setup.git n8n
+cd n8n
 ```
 
 ### Step 2: Configure Environment
