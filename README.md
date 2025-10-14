@@ -35,8 +35,8 @@ Production-ready n8n installation with Docker, PostgreSQL, Traefik reverse proxy
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/dragancenic/n8n-docker-setup.git
-cd n8n-docker-setup
+git clone https://github.com/dragancenic/n8n-docker-setup.git n8n
+cd n8n
 ```
 
 ### 2. Configure environment

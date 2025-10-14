@@ -14,8 +14,8 @@ Get n8n running in 5 minutes!
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/n8n-docker-setup.git
-cd n8n-docker-setup
+git clone https://github.com/your-username/n8n-docker-setup.git n8n
+cd n8n
 
 # Configure environment
 cp .env.example .env
