@@ -62,7 +62,28 @@ chmod +x scripts/setup.sh
 ./scripts/setup.sh
 ```
 
-### 4. Access n8n
+The script will install Docker, configure firewall, and prepare the environment.
+
+### 4. Log out and log back in
+
+After the installation script completes, you need to log out and log back in for Docker group changes to take effect:
+
+```bash
+exit
+```
+
+Then reconnect to your server via SSH.
+
+### 5. Start services
+
+```bash
+cd n8n
+docker-compose up -d
+```
+
+Wait about 1-2 minutes for services to start and SSL certificate to be generated.
+
+### 6. Access n8n
 
 Open your browser and navigate to: `https://your-domain.com`
 

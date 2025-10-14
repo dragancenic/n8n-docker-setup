@@ -37,7 +37,9 @@ Use this checklist when deploying n8n to production.
 - [ ] Docker installed
 - [ ] Docker Compose installed
 - [ ] `setup.sh` executed successfully
-- [ ] All services started (`docker-compose ps`)
+- [ ] Logged out and logged back in (for Docker group changes)
+- [ ] Services started with `docker-compose up -d`
+- [ ] All services running (`docker-compose ps`)
 - [ ] No error messages in logs
 
 ## Post-Installation Verification

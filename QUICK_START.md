@@ -37,15 +37,31 @@ chmod +x scripts/setup.sh
 ./scripts/setup.sh
 ```
 
-### 3. Wait 2 Minutes
+### 3. Log Out and Log Back In
 
-The script will:
-- ✅ Install Docker
-- ✅ Configure firewall
-- ✅ Start services
+After the setup script completes, log out and log back in to apply Docker group changes:
+
+```bash
+exit
+```
+
+Then reconnect to your server via SSH.
+
+### 4. Start Services
+
+```bash
+cd n8n
+docker-compose up -d
+```
+
+### 5. Wait 2 Minutes
+
+The services will:
+- ✅ Start n8n, PostgreSQL, and Traefik
 - ✅ Generate SSL certificate
+- ✅ Initialize database
 
-### 4. Access n8n
+### 6. Access n8n
 
 Open in browser: `https://your-domain.com`
 
