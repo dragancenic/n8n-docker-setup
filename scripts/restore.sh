@@ -90,8 +90,11 @@ sleep 5
 docker-compose down
 
 # Extract n8n data to volume
+# Get project name from environment or use docker-compose to determine volume name
+PROJECT_NAME=${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}
+N8N_VOLUME="${PROJECT_NAME}_n8n_data"
 docker run --rm \
-    -v $(docker volume inspect n8n-docker-setup_n8n_data | grep Mountpoint | awk '{print $2}' | tr -d '",'):/target \
+    -v $(docker volume inspect $N8N_VOLUME | grep Mountpoint | awk '{print $2}' | tr -d '",'):/target \
     -v $TEMP_DIR:/backup \
     alpine sh -c "cd /target && tar xzf /backup/n8n_data.tar.gz"
 echo "✅ n8n data restored"
