@@ -125,7 +125,7 @@ docker-compose logs traefik
 
 # 2. Remove old certificates
 docker-compose down
-docker volume rm n8n-docker-setup_letsencrypt
+docker volume rm n8n_letsencrypt
 docker-compose up -d
 
 # Wait 2-3 minutes for new certificate
@@ -139,7 +139,7 @@ docker-compose restart traefik
 
 # Force certificate refresh
 docker-compose down
-docker volume rm n8n-docker-setup_letsencrypt
+docker volume rm n8n_letsencrypt
 docker-compose up -d
 ```
 
@@ -179,7 +179,7 @@ sudo swapon /swapfile
 ```bash
 # Fix permissions
 docker-compose down
-sudo chown -R 1000:1000 $(docker volume inspect n8n-docker-setup_n8n_data | grep Mountpoint | awk '{print $2}' | tr -d '",')
+sudo chown -R 1000:1000 $(docker volume inspect n8n_n8n_data | grep Mountpoint | awk '{print $2}' | tr -d '",')
 docker-compose up -d
 ```
 
@@ -195,7 +195,7 @@ docker-compose logs postgres
 1. **Data corruption**:
 ```bash
 docker-compose down
-docker volume rm n8n-docker-setup_postgres_data
+docker volume rm n8n_postgres_data
 docker-compose up -d postgres
 
 # Restore from backup
@@ -538,7 +538,7 @@ sudo ufw status
 
 2. **Check Docker network**:
 ```bash
-docker network inspect n8n-docker-setup_n8n-network
+docker network inspect n8n_n8n-network
 ```
 
 ## Logs and Debugging

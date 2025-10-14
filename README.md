@@ -53,6 +53,8 @@ Update the following variables:
 - `N8N_BASIC_AUTH_PASSWORD` - n8n admin password
 - `POSTGRES_PASSWORD` - PostgreSQL password
 
+> **Note:** The `.env` file includes `COMPOSE_PROJECT_NAME=n8n` which ensures Docker volumes are created with the `n8n` prefix (e.g., `n8n_n8n_data`, `n8n_postgres_data`) regardless of the directory name where you clone the repository.
+
 ### 3. Run installation script
 
 ```bash
