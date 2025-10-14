@@ -188,6 +188,13 @@ nano .env  # Configure with OLD domain or new domain
 
 # Install
 ./scripts/setup.sh
+
+# Log out and log back in
+exit
+
+# After logging back in, start services
+cd n8n
+docker-compose up -d
 ```
 
 4. **Restore data**:

@@ -61,16 +61,33 @@ The script will:
 - Configure firewall
 - Set timezone
 - Create necessary directories
-- Start all services
+- Prepare the environment
 
-### Step 4: Wait for Services
+### Step 4: Log Out and Log Back In
+
+After the installation script completes, you need to log out and log back in for Docker group changes to take effect:
+
+```bash
+exit
+```
+
+Then reconnect to your server via SSH.
+
+### Step 5: Start Services
+
+```bash
+cd ~/n8n
+docker-compose up -d
+```
+
+### Step 6: Wait for Services
 
 Wait about 1-2 minutes for:
 - Services to start
 - Let's Encrypt to issue SSL certificate
 - n8n to initialize database
 
-### Step 5: Access n8n
+### Step 7: Access n8n
 
 Open your browser and navigate to:
 ```
