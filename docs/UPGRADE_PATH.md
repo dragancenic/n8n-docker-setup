@@ -200,7 +200,7 @@ cat /tmp/backup.sql | docker-compose exec -T postgres psql -U n8n n8n
 
 # Restore n8n data
 docker run --rm \
-  -v n8n-docker-setup_n8n_data:/target \
+  -v n8n_n8n_data:/target \
   -v /tmp:/backup \
   alpine sh -c "cd /target && tar xzf /backup/n8n_data.tar.gz"
 

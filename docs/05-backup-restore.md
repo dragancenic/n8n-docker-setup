@@ -57,7 +57,7 @@ docker-compose exec -T postgres pg_dump -U n8n n8n > n8n_db_$(date +%Y%m%d_%H%M%
 
 ```bash
 docker run --rm \
-  -v n8n-docker-setup_n8n_data:/data:ro \
+  -v n8n_n8n_data:/data:ro \
   -v $(pwd):/backup \
   alpine tar czf /backup/n8n_data_$(date +%Y%m%d_%H%M%S).tar.gz -C /data .
 ```
@@ -174,7 +174,7 @@ cat /path/to/backup.sql | docker-compose exec -T postgres psql -U n8n n8n
 
 ```bash
 # Remove old volume
-docker volume rm n8n-docker-setup_n8n_data
+docker volume rm n8n_n8n_data
 
 # Create new volume and restore
 docker-compose up -d postgres n8n
@@ -182,7 +182,7 @@ sleep 5
 docker-compose down
 
 docker run --rm \
-  -v n8n-docker-setup_n8n_data:/data \
+  -v n8n_n8n_data:/data \
   -v /path/to:/backup \
   alpine sh -c "cd /data && tar xzf /backup/n8n_data_backup.tar.gz"
 ```

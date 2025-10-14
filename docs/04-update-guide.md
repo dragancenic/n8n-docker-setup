@@ -43,7 +43,7 @@ Or manually:
 docker-compose exec -T postgres pg_dump -U n8n n8n > backup_$(date +%Y%m%d).sql
 
 # Backup n8n data
-docker run --rm -v n8n-docker-setup_n8n_data:/data -v $(pwd):/backup \
+docker run --rm -v n8n_n8n_data:/data -v $(pwd):/backup \
   alpine tar czf /backup/n8n_data_$(date +%Y%m%d).tar.gz -C /data .
 ```
 
