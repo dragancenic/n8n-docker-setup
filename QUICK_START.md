@@ -14,7 +14,7 @@ Get n8n running in 5 minutes!
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/n8n-docker-setup.git n8n
+git clone https://github.com/dragancenic/n8n-docker-setup.git n8n
 cd n8n
 
 # Configure environment
@@ -26,7 +26,7 @@ nano .env
 ```bash
 DOMAIN=your-domain.com
 EMAIL=your-email@example.com
-N8N_BASIC_AUTH_PASSWORD=YourStrongPassword123
+N8N_ENCRYPTION_KEY=generate_with_openssl_rand_-hex_32
 POSTGRES_PASSWORD=AnotherStrongPassword456
 ```
 
@@ -51,7 +51,7 @@ Then reconnect to your server via SSH.
 
 ```bash
 cd n8n
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 5. Wait 2 Minutes
@@ -65,7 +65,7 @@ The services will:
 
 Open in browser: `https://your-domain.com`
 
-Login with credentials from your `.env` file.
+Complete the initial owner-account setup in the n8n UI.
 
 ## That's It! 🎉
 
@@ -86,10 +86,10 @@ Your n8n is now running with:
 **Can't access n8n?**
 ```bash
 # Check if services are running
-docker-compose ps
+docker compose ps
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 ```
 
 **Need help?** Check [Troubleshooting Guide](docs/06-troubleshooting.md)

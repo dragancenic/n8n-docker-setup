@@ -26,8 +26,8 @@ Use this checklist when deploying n8n to production.
 - [ ] `.env` file created from `.env.example`
 - [ ] `DOMAIN` set correctly
 - [ ] `EMAIL` set for Let's Encrypt notifications
-- [ ] `N8N_BASIC_AUTH_USER` set
-- [ ] `N8N_BASIC_AUTH_PASSWORD` set (strong password)
+- [ ] `N8N_ENCRYPTION_KEY` generated, stored securely, and backed up outside the server
+- [ ] Initial n8n owner account created
 - [ ] `POSTGRES_PASSWORD` set (strong password)
 - [ ] Timezone configured correctly
 
@@ -38,8 +38,8 @@ Use this checklist when deploying n8n to production.
 - [ ] Docker Compose installed
 - [ ] `setup.sh` executed successfully
 - [ ] Logged out and logged back in (for Docker group changes)
-- [ ] Services started with `docker-compose up -d`
-- [ ] All services running (`docker-compose ps`)
+- [ ] Services started with `docker compose up -d`
+- [ ] All services running (`docker compose ps`)
 - [ ] No error messages in logs
 
 ## Post-Installation Verification
@@ -57,7 +57,7 @@ Use this checklist when deploying n8n to production.
 - [ ] No console errors in browser
 
 ### Service Health
-- [ ] All containers running (`docker-compose ps`)
+- [ ] All containers running (`docker compose ps`)
 - [ ] n8n container healthy
 - [ ] PostgreSQL container healthy
 - [ ] Traefik container healthy

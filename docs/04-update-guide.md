@@ -1,6 +1,6 @@
 # Update Guide
 
-How to update n8n to the latest version safely.
+How to update n8n to a reviewed, explicitly pinned version safely.
 
 ## Why Update?
 
@@ -15,7 +15,7 @@ Regular updates provide:
 ### 1. Check Current Version
 
 ```bash
-docker exec $(docker-compose ps -q n8n) n8n --version
+docker exec $(docker compose ps -q n8n) n8n --version
 ```
 
 ### 2. Check Latest Version
@@ -40,7 +40,7 @@ Read the changelog for:
 Or manually:
 ```bash
 # Backup database
-docker-compose exec -T postgres pg_dump -U n8n n8n > backup_$(date +%Y%m%d).sql
+docker compose exec -T postgres pg_dump -U n8n n8n > backup_$(date +%Y%m%d).sql
 
 # Backup n8n data
 docker run --rm -v n8n_n8n_data:/data -v $(pwd):/backup \
@@ -60,7 +60,7 @@ The script will:
 1. Show current version
 2. Create automatic backup
 3. Stop services
-4. Pull latest images
+4. Pull configured images
 5. Start services with new version
 6. Show new version
 
@@ -83,38 +83,38 @@ cd ~/n8n
 ### Step 3: Stop Services
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
-### Step 4: Pull Latest Images
+### Step 4: Pull Configured Images
 
 Update only n8n:
 ```bash
-docker-compose pull n8n
+docker compose pull n8n
 ```
 
 Or update all services:
 ```bash
-docker-compose pull
+docker compose pull
 ```
 
 ### Step 5: Start Services
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Step 6: Verify Update
 
 ```bash
 # Check version
-docker exec $(docker-compose ps -q n8n) n8n --version
+docker exec $(docker compose ps -q n8n) n8n --version
 
 # Check logs
-docker-compose logs -f n8n
+docker compose logs -f n8n
 
 # Check status
-docker-compose ps
+docker compose ps
 ```
 
 ### Step 7: Test n8n
@@ -124,33 +124,27 @@ Open your n8n instance and verify:
 - ✅ Workflows are intact
 - ✅ Executions run correctly
 
-## Update Specific Version
+## Update to a Specific Version
 
-To update to a specific version instead of latest:
-
-### Step 1: Edit docker-compose.yml
+### Step 1: Edit `.env`
 
 ```bash
-nano docker-compose.yml
+nano .env
 ```
 
 ### Step 2: Change Image Tag
 
-Find the n8n service and change:
-```yaml
-# From this:
-image: n8nio/n8n:latest
-
-# To specific version (example):
-image: n8nio/n8n:1.20.0
+Change the pinned version, for example:
+```bash
+N8N_VERSION=2.36.0
 ```
 
 ### Step 3: Apply Changes
 
 ```bash
-docker-compose down
-docker-compose pull n8n
-docker-compose up -d
+docker compose down
+docker compose pull n8n
+docker compose up -d
 ```
 
 ## Rollback to Previous Version
@@ -167,45 +161,18 @@ If something goes wrong after update:
 
 ```bash
 # Stop services
-docker-compose down
+docker compose down
 
-# Edit docker-compose.yml and set previous version
-nano docker-compose.yml
-
-# Example: change to previous version
-# image: n8nio/n8n:1.19.0
+# Edit .env and restore the previous tested version
+nano .env
 
 # Start with old version
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Automated Updates
 
-### Using Watchtower
-
-Watchtower automatically updates Docker containers.
-
-Add to your `docker-compose.yml`:
-
-```yaml
-  watchtower:
-    image: containrrr/watchtower
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_POLL_INTERVAL=86400  # Check daily
-      - WATCHTOWER_INCLUDE_STOPPED=true
-    command: n8n
-```
-
-Then restart services:
-```bash
-docker-compose up -d
-```
-
-**Note**: Automated updates skip backups. Consider manual updates for production.
+Automatic container updates are intentionally not supported by this repository. n8n releases can include database migrations and breaking changes, so update the pinned version in `.env`, test it in staging, create a verified backup, and then use `./scripts/update.sh` during a maintenance window.
 
 ## Update Schedule Recommendations
 
@@ -228,7 +195,7 @@ docker-compose up -d
 **Solution**:
 ```bash
 # Check logs
-docker-compose logs n8n
+docker compose logs n8n
 
 # Restore from backup
 ./scripts/restore.sh /path/to/backup.tar.gz
@@ -238,7 +205,7 @@ docker-compose logs n8n
 
 **Check logs**:
 ```bash
-docker-compose logs n8n
+docker compose logs n8n
 ```
 
 **Common causes**:
@@ -249,11 +216,11 @@ docker-compose logs n8n
 **Solution**:
 ```bash
 # Restart all services
-docker-compose down
-docker-compose up -d
+docker compose down
+docker compose up -d
 
 # Or restart specific service
-docker-compose restart n8n
+docker compose restart n8n
 ```
 
 ### 3. Workflows Not Working After Update
@@ -269,13 +236,13 @@ docker-compose restart n8n
 **Solution**:
 ```bash
 # Restart Traefik
-docker-compose restart traefik
+docker compose restart traefik
 
 # Check Traefik logs
-docker-compose logs traefik
+docker compose logs traefik
 
 # Verify certificate renewal
-docker exec $(docker-compose ps -q traefik) ls -la /letsencrypt/
+docker exec $(docker compose ps -q traefik) ls -la /letsencrypt/
 ```
 
 ## Verify Update Success
@@ -284,12 +251,12 @@ After updating, verify:
 
 ### 1. Version Check
 ```bash
-docker exec $(docker-compose ps -q n8n) n8n --version
+docker exec $(docker compose ps -q n8n) n8n --version
 ```
 
 ### 2. Service Status
 ```bash
-docker-compose ps
+docker compose ps
 ```
 All services should be "Up"
 
@@ -302,7 +269,7 @@ All services should be "Up"
 ### 4. Database Connection
 ```bash
 # Check n8n logs for database errors
-docker-compose logs n8n | grep -i error
+docker compose logs n8n | grep -i error
 ```
 
 ### 5. SSL Certificate

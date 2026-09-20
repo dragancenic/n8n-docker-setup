@@ -50,7 +50,7 @@ cd ~/n8n-backups
 ### Step 2: Backup PostgreSQL Database
 
 ```bash
-docker-compose exec -T postgres pg_dump -U n8n n8n > n8n_db_$(date +%Y%m%d_%H%M%S).sql
+docker compose exec -T postgres pg_dump -U n8n n8n > n8n_db_$(date +%Y%m%d_%H%M%S).sql
 ```
 
 ### Step 3: Backup n8n Data Volume
@@ -152,22 +152,22 @@ If you prefer manual restoration:
 
 ```bash
 cd ~/n8n
-docker-compose down
+docker compose down
 ```
 
 #### Step 2: Restore Database
 
 ```bash
 # Start only PostgreSQL
-docker-compose up -d postgres
+docker compose up -d postgres
 sleep 10
 
 # Drop and recreate database
-docker-compose exec postgres psql -U n8n -c "DROP DATABASE IF EXISTS n8n;"
-docker-compose exec postgres psql -U n8n -c "CREATE DATABASE n8n;"
+docker compose exec postgres psql -U n8n -c "DROP DATABASE IF EXISTS n8n;"
+docker compose exec postgres psql -U n8n -c "CREATE DATABASE n8n;"
 
 # Restore from backup
-cat /path/to/backup.sql | docker-compose exec -T postgres psql -U n8n n8n
+cat /path/to/backup.sql | docker compose exec -T postgres psql -U n8n n8n
 ```
 
 #### Step 3: Restore n8n Data
@@ -177,9 +177,9 @@ cat /path/to/backup.sql | docker-compose exec -T postgres psql -U n8n n8n
 docker volume rm n8n_n8n_data
 
 # Create new volume and restore
-docker-compose up -d postgres n8n
+docker compose up -d postgres n8n
 sleep 5
-docker-compose down
+docker compose down
 
 docker run --rm \
   -v n8n_n8n_data:/data \
@@ -197,17 +197,17 @@ cp /path/to/docker-compose_backup.yml docker-compose.yml
 #### Step 5: Start All Services
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 #### Step 6: Verify
 
 ```bash
 # Check services
-docker-compose ps
+docker compose ps
 
 # Check logs
-docker-compose logs -f n8n
+docker compose logs -f n8n
 
 # Test access
 curl -I https://your-domain.com
@@ -283,10 +283,10 @@ In n8n interface:
 npm install -g n8n
 
 # Export all workflows
-docker exec $(docker-compose ps -q n8n) n8n export:workflow --all --output=/home/node/.n8n/workflows_export.json
+docker exec $(docker compose ps -q n8n) n8n export:workflow --all --output=/home/node/.n8n/workflows_export.json
 
 # Copy from container
-docker cp $(docker-compose ps -q n8n):/home/node/.n8n/workflows_export.json ./
+docker cp $(docker compose ps -q n8n):/home/node/.n8n/workflows_export.json ./
 ```
 
 ### Import Workflows
@@ -310,15 +310,15 @@ In n8n interface:
 
 ```bash
 # Stop n8n
-docker-compose stop n8n
+docker compose stop n8n
 
 # Restore database only
-docker-compose exec postgres psql -U n8n -c "DROP DATABASE n8n;"
-docker-compose exec postgres psql -U n8n -c "CREATE DATABASE n8n;"
-cat backup.sql | docker-compose exec -T postgres psql -U n8n n8n
+docker compose exec postgres psql -U n8n -c "DROP DATABASE n8n;"
+docker compose exec postgres psql -U n8n -c "CREATE DATABASE n8n;"
+cat backup.sql | docker compose exec -T postgres psql -U n8n n8n
 
 # Restart n8n
-docker-compose start n8n
+docker compose start n8n
 ```
 
 ### If Configuration Lost
@@ -328,8 +328,8 @@ docker-compose start n8n
 cp backups/.env.backup .env
 
 # Restart services
-docker-compose down
-docker-compose up -d
+docker compose down
+docker compose up -d
 ```
 
 ## Backup Size Management

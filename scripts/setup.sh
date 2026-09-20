@@ -41,7 +41,7 @@ echo ""
 if ! command -v docker &> /dev/null; then
     echo "🐳 Installing Docker..."
     sudo apt update
-    sudo apt install -y docker.io docker-compose
+    sudo apt install -y docker.io docker-compose-plugin
     sudo systemctl enable docker
     sudo systemctl start docker
     
@@ -54,13 +54,13 @@ else
     echo "✅ Docker is already installed"
 fi
 
-# Check if docker-compose is installed
-if ! command -v docker-compose &> /dev/null; then
-    echo "📦 Installing docker-compose..."
-    sudo apt install -y docker-compose
-    echo "✅ docker-compose installed"
+# Check if the Docker Compose plugin is installed
+if ! docker compose version &> /dev/null; then
+    echo "📦 Installing Docker Compose plugin..."
+    sudo apt install -y docker-compose-plugin
+    echo "✅ Docker Compose plugin installed"
 else
-    echo "✅ docker-compose is already installed"
+    echo "✅ Docker Compose plugin is already installed"
 fi
 
 # Configure firewall
@@ -99,18 +99,17 @@ echo ""
 echo "After logging back in, start the services with:"
 echo ""
 echo "   cd $(pwd)"
-echo "   docker-compose up -d"
+echo "   docker compose up -d"
 echo ""
 echo "Wait about 1-2 minutes for services to start,"
 echo "then access n8n at: https://$DOMAIN"
 echo ""
-echo "🔐 Login credentials:"
-echo "   Username: $N8N_BASIC_AUTH_USER"
-echo "   Password: (check your .env file)"
+echo "🔐 On first access, create the n8n owner account in the UI."
+echo "   Keep N8N_ENCRYPTION_KEY from .env stored securely."
 echo ""
 echo "📝 Useful commands:"
-echo "   Check status: docker-compose ps"
-echo "   View logs: docker-compose logs -f n8n"
-echo "   Stop services: docker-compose down"
+echo "   Check status: docker compose ps"
+echo "   View logs: docker compose logs -f n8n"
+echo "   Stop services: docker compose down"
 echo "   Update n8n: ./scripts/update.sh"
 echo ""

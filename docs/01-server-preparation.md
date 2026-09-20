@@ -126,10 +126,10 @@ docker --version
 
 ```bash
 # Install Docker Compose
-sudo apt install -y docker-compose
+sudo apt install -y docker-compose-plugin
 
 # Verify installation
-docker-compose --version
+docker compose --version
 ```
 
 ### 9. Create Non-Root User (Optional)

@@ -8,10 +8,10 @@ Run these commands first:
 
 ```bash
 # Check all services status
-docker-compose ps
+docker compose ps
 
 # View all logs
-docker-compose logs --tail=100
+docker compose logs --tail=100
 
 # Check system resources
 df -h  # Disk space
@@ -31,7 +31,7 @@ top  # CPU usage
 
 ```bash
 # 1. Check if services are running
-docker-compose ps
+docker compose ps
 
 # 2. Check if ports are open
 sudo netstat -tlnp | grep -E ':(80|443)'
@@ -51,8 +51,8 @@ sudo ufw status
 
 1. **Services not running**:
 ```bash
-docker-compose down
-docker-compose up -d
+docker compose down
+docker compose up -d
 ```
 
 2. **Firewall blocking**:
@@ -86,10 +86,10 @@ sudo systemctl stop apache2
 
 ```bash
 # Check Traefik logs
-docker-compose logs traefik | grep -i error
+docker compose logs traefik | grep -i error
 
 # Check certificate file
-docker exec $(docker-compose ps -q traefik) ls -la /letsencrypt/acme.json
+docker exec $(docker compose ps -q traefik) ls -la /letsencrypt/acme.json
 ```
 
 **Solutions**:
@@ -110,7 +110,7 @@ curl -I http://your-domain.com
 
 5. **Restart Traefik**:
 ```bash
-docker-compose restart traefik
+docker compose restart traefik
 ```
 
 ## SSL Certificate Issues
@@ -121,12 +121,12 @@ docker-compose restart traefik
 
 ```bash
 # 1. Check Traefik configuration
-docker-compose logs traefik
+docker compose logs traefik
 
 # 2. Remove old certificates
-docker-compose down
+docker compose down
 docker volume rm n8n_letsencrypt
-docker-compose up -d
+docker compose up -d
 
 # Wait 2-3 minutes for new certificate
 ```
@@ -135,12 +135,12 @@ docker-compose up -d
 
 ```bash
 # Traefik automatically renews, but if needed:
-docker-compose restart traefik
+docker compose restart traefik
 
 # Force certificate refresh
-docker-compose down
+docker compose down
 docker volume rm n8n_letsencrypt
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Service Issues
@@ -149,7 +149,7 @@ docker-compose up -d
 
 **Check logs**:
 ```bash
-docker-compose logs n8n
+docker compose logs n8n
 ```
 
 **Common causes**:
@@ -157,7 +157,7 @@ docker-compose logs n8n
 1. **Database connection failed**:
 ```bash
 # Check PostgreSQL
-docker-compose logs postgres
+docker compose logs postgres
 
 # Verify credentials in .env match docker-compose.yml
 cat .env | grep POSTGRES
@@ -178,25 +178,25 @@ sudo swapon /swapfile
 3. **Permission issues**:
 ```bash
 # Fix permissions
-docker-compose down
+docker compose down
 sudo chown -R 1000:1000 $(docker volume inspect n8n_n8n_data | grep Mountpoint | awk '{print $2}' | tr -d '",')
-docker-compose up -d
+docker compose up -d
 ```
 
 ### PostgreSQL Won't Start
 
 **Check logs**:
 ```bash
-docker-compose logs postgres
+docker compose logs postgres
 ```
 
 **Solutions**:
 
 1. **Data corruption**:
 ```bash
-docker-compose down
+docker compose down
 docker volume rm n8n_postgres_data
-docker-compose up -d postgres
+docker compose up -d postgres
 
 # Restore from backup
 ./scripts/restore.sh /path/to/backup.tar.gz
@@ -218,13 +218,13 @@ sudo lsof -i :5432
 
 ```bash
 # 1. Check n8n is running
-docker-compose ps
+docker compose ps
 
 # 2. Verify labels are correct
-docker inspect $(docker-compose ps -q n8n) | grep -A 10 Labels
+docker inspect $(docker compose ps -q n8n) | grep -A 10 Labels
 
 # 3. Restart all services
-docker-compose restart
+docker compose restart
 ```
 
 ## Performance Issues
@@ -238,7 +238,7 @@ docker-compose restart
 docker stats
 
 # Check workflow executions
-docker-compose logs n8n | grep -i execution
+docker compose logs n8n | grep -i execution
 ```
 
 **Solutions**:
@@ -265,7 +265,7 @@ In n8n interface: Settings → Executions → Clear all
 
 **Check size**:
 ```bash
-docker exec $(docker-compose ps -q postgres) psql -U n8n -c "SELECT pg_size_pretty(pg_database_size('n8n'));"
+docker exec $(docker compose ps -q postgres) psql -U n8n -c "SELECT pg_size_pretty(pg_database_size('n8n'));"
 ```
 
 **Solutions**:
@@ -280,7 +280,7 @@ docker exec $(docker-compose ps -q postgres) psql -U n8n -c "SELECT pg_size_pret
 
 3. **Vacuum database**:
 ```bash
-docker exec $(docker-compose ps -q postgres) psql -U n8n -d n8n -c "VACUUM FULL;"
+docker exec $(docker compose ps -q postgres) psql -U n8n -d n8n -c "VACUUM FULL;"
 ```
 
 ## Authentication Issues
@@ -291,16 +291,14 @@ docker exec $(docker-compose ps -q postgres) psql -U n8n -d n8n -c "VACUUM FULL;
 
 1. **Verify credentials**:
 ```bash
-cat .env | grep N8N_BASIC_AUTH
 ```
 
 2. **Reset password**:
 ```bash
 nano .env
-# Change N8N_BASIC_AUTH_PASSWORD
 
-docker-compose down
-docker-compose up -d
+docker compose down
+docker compose up -d
 ```
 
 3. **Clear browser cache and cookies**
@@ -309,13 +307,12 @@ docker-compose up -d
 
 **Check Basic Auth settings**:
 ```bash
-docker-compose logs n8n | grep -i auth
+docker compose logs n8n | grep -i auth
 ```
 
 **Solution**:
 ```bash
 # Verify in .env
-N8N_BASIC_AUTH_ACTIVE=true
 ```
 
 ## Workflow Issues
@@ -325,7 +322,7 @@ N8N_BASIC_AUTH_ACTIVE=true
 **Check**:
 ```bash
 # View n8n logs
-docker-compose logs -f n8n
+docker compose logs -f n8n
 
 # Check workflow status in n8n interface
 ```
@@ -341,7 +338,7 @@ docker-compose logs -f n8n
 **Verify webhook URL**:
 ```bash
 # Check environment variables
-docker exec $(docker-compose ps -q n8n) env | grep WEBHOOK
+docker exec $(docker compose ps -q n8n) env | grep WEBHOOK
 ```
 
 **Should show**:
@@ -359,7 +356,7 @@ nano .env
 
 2. **Restart n8n**:
 ```bash
-docker-compose restart n8n
+docker compose restart n8n
 ```
 
 ## Data Issues
@@ -378,7 +375,7 @@ docker-compose restart n8n
 docker volume ls | grep n8n
 
 # 2. Check database connection
-docker-compose logs n8n | grep -i database
+docker compose logs n8n | grep -i database
 
 # 3. Restore from backup
 ./scripts/restore.sh /path/to/backup.tar.gz
@@ -388,7 +385,7 @@ docker-compose logs n8n | grep -i database
 
 **Check encryption key**:
 ```bash
-docker exec $(docker-compose ps -q n8n) ls -la /home/node/.n8n/
+docker exec $(docker compose ps -q n8n) ls -la /home/node/.n8n/
 ```
 
 **Important**: n8n uses encryption keys stored in the volume. If volume is lost, credentials cannot be recovered.
@@ -494,7 +491,7 @@ top
 
 ```bash
 # 1. Check logs
-docker-compose logs n8n
+docker compose logs n8n
 
 # 2. Restore from backup
 ./scripts/restore.sh /path/to/backup.tar.gz
@@ -502,14 +499,14 @@ docker-compose logs n8n
 # 3. Or rollback to previous version
 nano docker-compose.yml
 # Change image tag to previous version
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Database Migration Failed
 
 ```bash
 # Check migration logs
-docker-compose logs n8n | grep -i migration
+docker compose logs n8n | grep -i migration
 
 # Restore database from pre-update backup
 ./scripts/restore.sh /path/to/backup.tar.gz
@@ -522,10 +519,10 @@ docker-compose logs n8n | grep -i migration
 **Test connectivity**:
 ```bash
 # From n8n container
-docker exec $(docker-compose ps -q n8n) wget -O- https://httpbin.org/ip
+docker exec $(docker compose ps -q n8n) wget -O- https://httpbin.org/ip
 
 # Check DNS
-docker exec $(docker-compose ps -q n8n) nslookup google.com
+docker exec $(docker compose ps -q n8n) nslookup google.com
 ```
 
 **Solutions**:
@@ -547,21 +544,21 @@ docker network inspect n8n_n8n-network
 
 ```bash
 # All services
-docker-compose logs
+docker compose logs
 
 # Specific service
-docker-compose logs n8n
-docker-compose logs postgres
-docker-compose logs traefik
+docker compose logs n8n
+docker compose logs postgres
+docker compose logs traefik
 
 # Follow logs in real-time
-docker-compose logs -f n8n
+docker compose logs -f n8n
 
 # Last 100 lines
-docker-compose logs --tail=100 n8n
+docker compose logs --tail=100 n8n
 
 # Logs since specific time
-docker-compose logs --since 30m n8n
+docker compose logs --since 30m n8n
 ```
 
 ### Enable Debug Mode
@@ -573,17 +570,17 @@ N8N_LOG_LEVEL=debug
 
 Restart:
 ```bash
-docker-compose restart n8n
+docker compose restart n8n
 ```
 
 ### Access Container Shell
 
 ```bash
 # n8n container
-docker exec -it $(docker-compose ps -q n8n) sh
+docker exec -it $(docker compose ps -q n8n) sh
 
 # PostgreSQL container
-docker exec -it $(docker-compose ps -q postgres) bash
+docker exec -it $(docker compose ps -q postgres) bash
 ```
 
 ## Getting Help
@@ -596,13 +593,13 @@ Collect this information:
 # 1. System info
 uname -a
 docker --version
-docker-compose --version
+docker compose --version
 
 # 2. Services status
-docker-compose ps
+docker compose ps
 
 # 3. Recent logs
-docker-compose logs --tail=100 > logs.txt
+docker compose logs --tail=100 > logs.txt
 
 # 4. Configuration (remove sensitive data!)
 cat docker-compose.yml
@@ -646,7 +643,7 @@ To avoid issues:
 
 If everything fails:
 
-1. **Stop services**: `docker-compose down`
+1. **Stop services**: `docker compose down`
 2. **Backup current state**: `./scripts/backup.sh`
 3. **Restore from last known good backup**: `./scripts/restore.sh`
 4. **If that fails, reinstall from scratch**: [Installation Guide](03-installation.md)
@@ -655,19 +652,19 @@ If everything fails:
 
 ```bash
 # Start services
-docker-compose up -d
+docker compose up -d
 
 # Stop services
-docker-compose down
+docker compose down
 
 # Restart services
-docker-compose restart
+docker compose restart
 
 # View logs
-docker-compose logs -f n8n
+docker compose logs -f n8n
 
 # Check status
-docker-compose ps
+docker compose ps
 
 # Update
 ./scripts/update.sh

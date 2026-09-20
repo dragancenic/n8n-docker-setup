@@ -25,8 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Update guide
   - Backup and restore guide
   - Troubleshooting guide
-- Example configurations
-  - Docker Compose with Watchtower for auto-updates
 - FAQ documentation
 - Quick start guide
 - Contributing guidelines
@@ -42,7 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🌍 Timezone support
 - 🔐 Basic authentication enabled by default
 - 📊 Health checks for services
-- 🔄 Automated updates option with Watchtower
 
 ### Security
 - Firewall configuration included in setup
@@ -89,5 +86,5 @@ Use this template for future releases:
 
 ---
 
-[Unreleased]: https://github.com/your-username/n8n-docker-setup/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/your-username/n8n-docker-setup/releases/tag/v1.0.0
+[Unreleased]: https://github.com/dragancenic/n8n-docker-setup/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/dragancenic/n8n-docker-setup/releases/tag/v1.0.0

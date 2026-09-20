@@ -19,7 +19,7 @@ nslookup your-domain.com
 
 ```bash
 cd ~
-git clone https://github.com/your-username/n8n-docker-setup.git n8n
+git clone https://github.com/dragancenic/n8n-docker-setup.git n8n
 cd n8n
 ```
 
@@ -40,8 +40,6 @@ DOMAIN=automata.yourdomain.com
 EMAIL=admin@yourdomain.com
 
 # n8n login credentials
-N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD=YourStrongPassword123!
 
 # PostgreSQL password
 POSTGRES_PASSWORD=AnotherStrongPassword456!
@@ -57,7 +55,7 @@ chmod +x scripts/setup.sh
 ```
 
 The script will:
-- Install Docker and docker-compose (if needed)
+- Install Docker and docker compose (if needed)
 - Configure firewall
 - Set timezone
 - Create necessary directories
@@ -77,7 +75,7 @@ Then reconnect to your server via SSH.
 
 ```bash
 cd ~/n8n
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Step 6: Wait for Services
@@ -116,8 +114,6 @@ Add configuration:
 ```bash
 DOMAIN=automata.yourdomain.com
 EMAIL=admin@yourdomain.com
-N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD=change_this_password
 POSTGRES_USER=n8n
 POSTGRES_PASSWORD=change_this_db_password
 POSTGRES_DB=n8n
@@ -136,13 +132,13 @@ Copy the contents from the repository's `docker-compose.yml` file.
 ### Step 4: Start Services
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Step 5: Check Status
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 All services should show "Up" status.
@@ -152,7 +148,7 @@ All services should show "Up" status.
 ### Check Running Services
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 Expected output:
@@ -167,13 +163,13 @@ n8n-traefik-1      traefik    Up          0.0.0.0:80->80/tcp, 0.0.0.0:443->443/t
 
 ```bash
 # All services
-docker-compose logs
+docker compose logs
 
 # n8n only
-docker-compose logs n8n
+docker compose logs n8n
 
 # Follow logs in real-time
-docker-compose logs -f n8n
+docker compose logs -f n8n
 ```
 
 ### Test HTTPS
@@ -187,7 +183,7 @@ Should return `HTTP/2 200` with valid SSL certificate.
 ### Check n8n Version
 
 ```bash
-docker exec $(docker-compose ps -q n8n) n8n --version
+docker exec $(docker compose ps -q n8n) n8n --version
 ```
 
 ## First Login
@@ -195,8 +191,6 @@ docker exec $(docker-compose ps -q n8n) n8n --version
 1. Open `https://your-domain.com` in your browser
 2. You'll see a login screen
 3. Enter credentials from your `.env` file:
-   - Username: (your N8N_BASIC_AUTH_USER)
-   - Password: (your N8N_BASIC_AUTH_PASSWORD)
 4. You'll be redirected to n8n dashboard
 
 ## Post-Installation Setup
@@ -205,10 +199,9 @@ docker exec $(docker-compose ps -q n8n) n8n --version
 
 After first login, it's recommended to change your password:
 
-1. Stop services: `docker-compose down`
+1. Stop services: `docker compose down`
 2. Edit `.env` file: `nano .env`
-3. Change `N8N_BASIC_AUTH_PASSWORD`
-4. Start services: `docker-compose up -d`
+4. Start services: `docker compose up -d`
 
 ### Configure n8n Settings
 
@@ -227,13 +220,13 @@ In the n8n interface:
 
 **Check if services are running:**
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 **Check logs:**
 ```bash
-docker-compose logs traefik
-docker-compose logs n8n
+docker compose logs traefik
+docker compose logs n8n
 ```
 
 **Possible solutions:**
@@ -247,7 +240,7 @@ docker-compose logs n8n
 
 **Solutions:**
 - Wait a few minutes for Let's Encrypt to issue certificate
-- Check Traefik logs: `docker-compose logs traefik`
+- Check Traefik logs: `docker compose logs traefik`
 - Verify domain resolves to correct IP: `nslookup your-domain.com`
 - Make sure ports 80 and 443 are open
 - Ensure no Cloudflare proxy is enabled (use DNS-only mode)
@@ -256,13 +249,13 @@ docker-compose logs n8n
 
 **Check PostgreSQL:**
 ```bash
-docker-compose logs postgres
+docker compose logs postgres
 ```
 
 **Restart services:**
 ```bash
-docker-compose down
-docker-compose up -d
+docker compose down
+docker compose up -d
 ```
 
 ### 4. Port Already in Use
@@ -291,36 +284,36 @@ sudo usermod -aG docker $USER
 exit
 
 # Or use sudo for docker commands
-sudo docker-compose up -d
+sudo docker compose up -d
 ```
 
 ## Useful Commands
 
 ```bash
 # Start services
-docker-compose up -d
+docker compose up -d
 
 # Stop services
-docker-compose down
+docker compose down
 
 # Restart services
-docker-compose restart
+docker compose restart
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Check status
-docker-compose ps
+docker compose ps
 
 # Update n8n
-docker-compose pull n8n
-docker-compose up -d
+docker compose pull n8n
+docker compose up -d
 
 # Access n8n container shell
-docker exec -it $(docker-compose ps -q n8n) sh
+docker exec -it $(docker compose ps -q n8n) sh
 
 # Access PostgreSQL
-docker exec -it $(docker-compose ps -q postgres) psql -U n8n
+docker exec -it $(docker compose ps -q postgres) psql -U n8n
 ```
 
 ## Next Steps

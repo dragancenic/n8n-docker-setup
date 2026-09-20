@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -Eeuo pipefail
+
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$PROJECT_DIR"
 
 echo "=========================================="
 echo "n8n Update Script"
@@ -16,13 +19,13 @@ fi
 
 # Check current version
 echo "📊 Current n8n version:"
-docker exec $(docker-compose ps -q n8n 2>/dev/null) n8n --version 2>/dev/null || echo "Unable to detect version"
+docker exec $(docker compose ps -q n8n 2>/dev/null) n8n --version 2>/dev/null || echo "Unable to detect version"
 echo ""
 
 # Ask for confirmation
-read -p "Do you want to update n8n to the latest version? (y/n) " -n 1 -r
+read -r -p "Pull the image versions currently pinned in .env? (y/n) " REPLY
 echo ""
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
     echo "Update cancelled."
     exit 0
 fi
@@ -40,21 +43,17 @@ fi
 # Stop services
 echo ""
 echo "🛑 Stopping services..."
-docker-compose down
+docker compose down
 
-# Pull latest images
+# Pull the explicitly configured images
 echo ""
-echo "📥 Pulling latest n8n image..."
-docker-compose pull n8n
-
-echo ""
-echo "📥 Pulling other images..."
-docker-compose pull
+echo "📥 Pulling configured images..."
+docker compose pull
 
 # Start services
 echo ""
 echo "🚀 Starting services with new images..."
-docker-compose up -d
+docker compose up -d
 
 # Wait for services
 echo ""
@@ -62,22 +61,22 @@ echo "⏳ Waiting for services to start..."
 sleep 20
 
 # Check if services are running
-if docker-compose ps | grep -q "Up"; then
+if docker compose ps | grep -q "Up"; then
     echo ""
     echo "=========================================="
     echo "✅ Update completed successfully!"
     echo "=========================================="
     echo ""
     echo "📊 New n8n version:"
-    docker exec $(docker-compose ps -q n8n) n8n --version
+    docker exec $(docker compose ps -q n8n) n8n --version
     echo ""
     echo "🌐 Access n8n at your configured domain"
     echo ""
-    echo "📝 Check logs: docker-compose logs -f n8n"
+    echo "📝 Check logs: docker compose logs -f n8n"
 else
     echo ""
     echo "❌ Something went wrong. Check logs with:"
-    echo "   docker-compose logs"
+    echo "   docker compose logs"
     echo ""
     echo "To rollback, restore from backup using:"
     echo "   ./scripts/restore.sh /path/to/backup.tar.gz"

@@ -8,7 +8,7 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 If you find a bug or have a suggestion:
 
-1. Check if the issue already exists in [GitHub Issues](https://github.com/your-username/n8n-docker-setup/issues)
+1. Check if the issue already exists in [GitHub Issues](https://github.com/dragancenic/n8n-docker-setup/issues)
 2. If not, create a new issue with:
    - Clear title and description
    - Steps to reproduce (for bugs)

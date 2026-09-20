@@ -20,7 +20,7 @@ Production-ready n8n installation with Docker, PostgreSQL, Traefik reverse proxy
 - **PostgreSQL database** - Reliable data persistence
 - **Traefik reverse proxy** - Modern routing and certificate management
 - **Docker Compose** - Simple deployment and management
-- **Easy updates** - Update to latest n8n version with single command
+- **Controlled updates** - Update explicitly pinned versions after review and testing
 - **Backup scripts** - Automated backup and restore procedures
 
 ## 📋 Prerequisites
@@ -49,9 +49,10 @@ nano .env
 Update the following variables:
 - `DOMAIN` - your domain name (e.g., automata.example.com)
 - `EMAIL` - your email for Let's Encrypt notifications
-- `N8N_BASIC_AUTH_USER` - n8n admin username
-- `N8N_BASIC_AUTH_PASSWORD` - n8n admin password
+- `N8N_ENCRYPTION_KEY` - generate once with `openssl rand -hex 32`; store it securely and never change it
 - `POSTGRES_PASSWORD` - PostgreSQL password
+
+> **Existing installation:** do not generate a replacement encryption key. First recover the current key from the existing persistent `/home/node/.n8n/config` file, save that exact value in `.env`, and take a tested backup. A changed key makes existing credentials unreadable.
 
 > **Note:** The `.env` file includes `COMPOSE_PROJECT_NAME=n8n` which ensures Docker volumes are created with the `n8n` prefix (e.g., `n8n_n8n_data`, `n8n_postgres_data`) regardless of the directory name where you clone the repository.
 
@@ -78,7 +79,7 @@ Then reconnect to your server via SSH.
 
 ```bash
 cd n8n
-docker-compose up -d
+docker compose up -d
 ```
 
 Wait about 1-2 minutes for services to start and SSL certificate to be generated.
@@ -87,7 +88,7 @@ Wait about 1-2 minutes for services to start and SSL certificate to be generated
 
 Open your browser and navigate to: `https://your-domain.com`
 
-Login with credentials you set in `.env` file.
+Complete the initial owner-account setup in the n8n UI.
 
 ## 📚 Documentation
 
@@ -102,7 +103,7 @@ Detailed guides are available in the `docs/` directory:
 
 ## 🔄 Updating n8n
 
-To update to the latest n8n version:
+To pull the versions explicitly pinned in `.env`:
 
 ```bash
 ./scripts/update.sh
@@ -111,9 +112,9 @@ To update to the latest n8n version:
 Or manually:
 
 ```bash
-docker-compose down
-docker-compose pull n8n
-docker-compose up -d
+docker compose down
+docker compose pull n8n
+docker compose up -d
 ```
 
 ## 💾 Backup
@@ -134,9 +135,9 @@ Restore from backup:
 
 | Component | Version | Purpose |
 |-----------|---------|---------|
-| n8n | latest | Workflow automation |
+| n8n | Pinned in `.env` | Workflow automation |
 | PostgreSQL | 15 | Database |
-| Traefik | v2.11 | Reverse proxy & SSL |
+| Traefik | Pinned v3.7 | Reverse proxy & SSL |
 | Docker | latest | Containerization |
 
 ## 🤝 Contributing
@@ -218,9 +219,9 @@ If you find this project helpful, please consider giving it a star! ⭐
 
 | Component | Version | Purpose |
 |-----------|---------|---------|
-| n8n | latest | Workflow automation platform |
+| n8n | Pinned in `.env` | Workflow automation platform |
 | PostgreSQL | 15 | Database for data persistence |
-| Traefik | v2.11 | Reverse proxy & SSL management |
+| Traefik | Pinned v3.7 | Reverse proxy & SSL management |
 | Docker | latest | Container runtime |
 | Automated Scripts | - | Backup, restore, update |
 

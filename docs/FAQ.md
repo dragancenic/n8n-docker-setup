@@ -68,8 +68,7 @@ No, you need a VPS or dedicated server with:
 
 ```bash
 nano .env
-# Change N8N_BASIC_AUTH_PASSWORD
-docker-compose restart n8n
+docker compose restart n8n
 ```
 
 ### Can I use custom domain without www?
@@ -86,7 +85,7 @@ TZ=Europe/Belgrade
 
 Then restart:
 ```bash
-docker-compose restart n8n
+docker compose restart n8n
 ```
 
 ### Can I disable basic authentication?
@@ -94,7 +93,6 @@ docker-compose restart n8n
 Not recommended, but possible:
 ```bash
 # In .env
-N8N_BASIC_AUTH_ACTIVE=false
 ```
 
 **Warning**: Your n8n will be publicly accessible!
@@ -179,10 +177,10 @@ Typical backup: 100MB - 1GB
 
 ```bash
 # Check status
-docker-compose ps
+docker compose ps
 
 # View logs
-docker-compose logs -f n8n
+docker compose logs -f n8n
 
 # Check resource usage
 docker stats
@@ -247,16 +245,16 @@ See [Troubleshooting Guide](06-troubleshooting.md)
 ### Can't access n8n (connection refused)
 
 Check:
-1. Services running: `docker-compose ps`
+1. Services running: `docker compose ps`
 2. Firewall: `sudo ufw status`
 3. DNS: `nslookup your-domain.com`
-4. Logs: `docker-compose logs traefik n8n`
+4. Logs: `docker compose logs traefik n8n`
 
 ### SSL certificate not working
 
 Wait 2-3 minutes for Let's Encrypt, then:
 ```bash
-docker-compose logs traefik | grep -i error
+docker compose logs traefik | grep -i error
 ```
 
 Common causes:
@@ -270,14 +268,14 @@ Check:
 1. Workflow is activated (toggle on)
 2. Trigger conditions are met
 3. Credentials are valid
-4. Logs: `docker-compose logs n8n`
+4. Logs: `docker compose logs n8n`
 
 ### How do I get support?
 
 1. Check [Troubleshooting Guide](06-troubleshooting.md)
 2. Search [n8n Community Forum](https://community.n8n.io/)
 3. Ask in [n8n Discord](https://discord.gg/n8n)
-4. Create [GitHub Issue](https://github.com/your-username/n8n-docker-setup/issues)
+4. Create [GitHub Issue](https://github.com/dragancenic/n8n-docker-setup/issues)
 
 ## Cost Questions
 
@@ -354,7 +352,7 @@ Add to `.env`:
 N8N_LOG_LEVEL=debug
 ```
 
-Restart: `docker-compose restart n8n`
+Restart: `docker compose restart n8n`
 
 ## Still Have Questions?
 

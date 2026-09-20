@@ -68,17 +68,17 @@ pg_dump -U your_user your_database > n8n_backup.sql
 
 3. **Stop new n8n**:
 ```bash
-docker-compose stop n8n
+docker compose stop n8n
 ```
 
 4. **Import database**:
 ```bash
-cat n8n_backup.sql | docker-compose exec -T postgres psql -U n8n n8n
+cat n8n_backup.sql | docker compose exec -T postgres psql -U n8n n8n
 ```
 
 5. **Start n8n**:
 ```bash
-docker-compose start n8n
+docker compose start n8n
 ```
 
 ## From npm/Binary Installation
@@ -108,8 +108,8 @@ scp /tmp/workflows.json user@new-server:/tmp/
 scp /tmp/credentials.json user@new-server:/tmp/
 
 # Import into Docker n8n
-docker exec $(docker-compose ps -q n8n) n8n import:workflow --input=/tmp/workflows.json
-docker exec $(docker-compose ps -q n8n) n8n import:credentials --input=/tmp/credentials.json
+docker exec $(docker compose ps -q n8n) n8n import:workflow --input=/tmp/workflows.json
+docker exec $(docker compose ps -q n8n) n8n import:credentials --input=/tmp/credentials.json
 ```
 
 ### Step 4: Stop Old Installation
@@ -127,12 +127,12 @@ systemctl stop n8n  # if using systemd
 
 1. **Backup old installation**:
 ```bash
-docker-compose exec postgres pg_dump -U n8n n8n > old_backup.sql
+docker compose exec postgres pg_dump -U n8n n8n > old_backup.sql
 ```
 
 2. **Clone this repository**:
 ```bash
-git clone https://github.com/your-username/n8n-docker-setup.git n8n
+git clone https://github.com/dragancenic/n8n-docker-setup.git n8n
 cd n8n
 ```
 
@@ -141,18 +141,18 @@ cd n8n
 4. **Stop old installation**:
 ```bash
 cd /path/to/old/installation
-docker-compose down
+docker compose down
 ```
 
 5. **Start new installation**:
 ```bash
 cd /path/to/n8n
-docker-compose up -d
+docker compose up -d
 ```
 
 6. **Restore data if needed**:
 ```bash
-cat old_backup.sql | docker-compose exec -T postgres psql -U n8n n8n
+cat old_backup.sql | docker compose exec -T postgres psql -U n8n n8n
 ```
 
 ## From Different Server
@@ -181,7 +181,7 @@ scp workflows.json backup.sql n8n_data.tar.gz user@new-server:/tmp/
 3. **On new server - Setup**:
 ```bash
 # Clone and configure
-git clone https://github.com/your-username/n8n-docker-setup.git n8n
+git clone https://github.com/dragancenic/n8n-docker-setup.git n8n
 cd n8n
 cp .env.example .env
 nano .env  # Configure with OLD domain or new domain
@@ -194,16 +194,16 @@ exit
 
 # After logging back in, start services
 cd n8n
-docker-compose up -d
+docker compose up -d
 ```
 
 4. **Restore data**:
 ```bash
 # Stop n8n temporarily
-docker-compose stop n8n
+docker compose stop n8n
 
 # Restore database
-cat /tmp/backup.sql | docker-compose exec -T postgres psql -U n8n n8n
+cat /tmp/backup.sql | docker compose exec -T postgres psql -U n8n n8n
 
 # Restore n8n data
 docker run --rm \
@@ -212,7 +212,7 @@ docker run --rm \
   alpine sh -c "cd /target && tar xzf /backup/n8n_data.tar.gz"
 
 # Start n8n
-docker-compose start n8n
+docker compose start n8n
 ```
 
 5. **Update DNS**:
@@ -269,7 +269,7 @@ If migrating between different n8n versions:
 
 PostgreSQL schema is managed by n8n migrations. When starting with existing data:
 - n8n automatically runs migrations
-- Check logs for migration status: `docker-compose logs n8n`
+- Check logs for migration status: `docker compose logs n8n`
 
 ## Common Migration Issues
 
@@ -300,7 +300,7 @@ GENERIC_TIMEZONE=Europe/Belgrade
 TZ=Europe/Belgrade
 
 # Restart
-docker-compose restart n8n
+docker compose restart n8n
 ```
 
 ### Executions Missing
@@ -386,7 +386,7 @@ Before migrating production:
 Migration questions:
 - Check [Troubleshooting Guide](06-troubleshooting.md)
 - Ask in [n8n Community](https://community.n8n.io/)
-- Open [GitHub Issue](https://github.com/your-username/n8n-docker-setup/issues)
+- Open [GitHub Issue](https://github.com/dragancenic/n8n-docker-setup/issues)
 
 ## Migration Support
 
