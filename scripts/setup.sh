@@ -2,6 +2,32 @@
 
 set -e
 
+# Resolve the project independently of the caller's working directory.
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$PROJECT_DIR"
+
+case "${1:-}" in
+    --existing-docker)
+        if [ "$#" -ne 1 ]; then
+            echo "Usage: bash scripts/setup.sh [--existing-docker]" >&2
+            exit 1
+        fi
+        exec bash "$PROJECT_DIR/scripts/check-existing-server.sh"
+        ;;
+    --help|-h)
+        echo "Usage: bash scripts/setup.sh [--existing-docker]"
+        echo "Default: prepare an Ubuntu server (packages, firewall, system timezone)."
+        echo "--existing-docker: checks only; no installation or server configuration changes."
+        exit 0
+        ;;
+    "") ;;
+    *)
+        echo "Unknown option: $1" >&2
+        echo "Usage: bash scripts/setup.sh [--existing-docker]" >&2
+        exit 1
+        ;;
+esac
+
 echo "=========================================="
 echo "n8n Docker Setup Script"
 echo "=========================================="

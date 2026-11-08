@@ -30,6 +30,16 @@ Production-ready n8n installation with Docker, PostgreSQL, Traefik reverse proxy
 - Domain name pointing to your server's IP
 - Ports 80 and 443 available
 
+## Docker already installed?
+
+For a prepared Ubuntu or another Docker-compatible Linux server, follow [Deploy with existing Docker](docs/existing-docker.md). After configuring `.env`, use:
+
+```bash
+bash scripts/setup.sh --existing-docker
+```
+
+This path checks the server without changing packages, firewall rules, or the system timezone. The default setup path below prepares an Ubuntu host.
+
 ## ⚡ Quick Start
 
 ### 1. Clone the repository

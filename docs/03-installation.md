@@ -13,6 +13,16 @@ Verify DNS is working:
 nslookup your-domain.com
 ```
 
+## Docker already installed?
+
+For a prepared Ubuntu or another Docker-compatible Linux server, follow [Deploy with existing Docker](existing-docker.md). After configuring `.env`, use:
+
+```bash
+bash scripts/setup.sh --existing-docker
+```
+
+This path checks the server without changing packages, firewall rules, or the system timezone. The default setup path below prepares an Ubuntu host.
+
 ## Quick Installation (Recommended)
 
 ### Step 1: Clone the Repository

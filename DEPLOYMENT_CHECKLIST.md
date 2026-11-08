@@ -6,7 +6,7 @@ Use this checklist when deploying n8n to production.
 
 ### Server Preparation
 - [ ] VPS/server provisioned (min 2GB RAM)
-- [ ] Ubuntu 20.04+ installed
+- [ ] Docker-compatible Linux installed (default host preparation script targets Ubuntu)
 - [ ] Root or sudo access confirmed
 - [ ] Server IP address noted
 - [ ] SSH access configured and tested
@@ -36,8 +36,9 @@ Use this checklist when deploying n8n to production.
 - [ ] Firewall ports opened (22, 80, 443)
 - [ ] Docker installed
 - [ ] Docker Compose installed
-- [ ] `setup.sh` executed successfully
-- [ ] Logged out and logged back in (for Docker group changes)
+- [ ] Setup path selected: Ubuntu host preparation, or [existing Docker](docs/existing-docker.md)
+- [ ] `setup.sh` or `bash scripts/setup.sh --existing-docker` completed successfully
+- [ ] Logged out and logged back in if Docker group membership changed
 - [ ] Services started with `docker compose up -d`
 - [ ] All services running (`docker compose ps`)
 - [ ] No error messages in logs

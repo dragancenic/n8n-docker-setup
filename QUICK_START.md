@@ -8,6 +8,16 @@ Get n8n running in 5 minutes!
 - Domain name pointing to your server
 - Ports 80 and 443 available
 
+## Docker already installed?
+
+For a prepared Ubuntu or another Docker-compatible Linux server, follow [Deploy with existing Docker](docs/existing-docker.md). After configuring `.env`, use:
+
+```bash
+bash scripts/setup.sh --existing-docker
+```
+
+This path checks the server without changing packages, firewall rules, or the system timezone. The default setup path below prepares an Ubuntu host.
+
 ## Installation in 4 Steps
 
 ### 1. Clone and Configure
